@@ -14,7 +14,16 @@ exports.create = (text, callback) => {
       throw err;
     }
     id = counterStr;
+    console.log(id)
+    fs.writeFile(path.join(exports.dataDir,  `${id}.txt`), text, (err) => {
+      if (err) {
+        throw ('error writing txt');
+      } else {
+        // callback(null, txt);
+      }
+    });
   });
+
   items[id] = text;
   callback(null, { id, text });
 };
