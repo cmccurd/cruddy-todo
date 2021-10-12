@@ -43,7 +43,7 @@ exports.getNextUniqueId = (callback) => {
     if (error) {
       throw ('error');
     }
-    counter = data;
+    counter = data; //extra variable
     writeCounter(counter + 1, (error, counterStr) => {
       callback(error, counterStr);
     });
