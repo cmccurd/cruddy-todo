@@ -29,12 +29,25 @@ exports.readAll = (callback) => {
     if (err) {
       throw err;
     }
-    // console.log(files);
     var dir = files.map((file) => {
       var id = file.split('.')[0];
-      return { id: id, text: id };
+      return new Promise((resolve, reject) => {
+        fs.readFile(`${exports.dataDir}/${id}.txt`, 'utf8', (err, fileData) => {
+          if (err) {
+            reject(new Error('should return an error for non-existant todo'));
+          } else {
+
+            resolve(fileData);
+          }
+        });
+      }).then((value) => {
+        return { id: id, text: value };
+      });
     });
-    callback(null, dir);
+
+    Promise.all(dir).then((values) => {
+      callback(null, values);
+    });
   });
 };
 
